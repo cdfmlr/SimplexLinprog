@@ -105,9 +105,10 @@ class SimplexMethod(LpSolver):
         单纯形算法入口
 
         :param kwargs:
-            show_tab=True (default False): 打印单纯形表
-            two_step=True (default False): 使用两阶段法
-            big_m=True    (default True):  使用大 M 法
+            base_idx=[...] (default []): 指定初始基，缺省则由算法自行确定
+            show_tab=True  (default False): 打印单纯形表
+            two_step=True  (default False): 使用两阶段法
+            big_m=True     (default True):  使用大 M 法
         :return: 问题的解
         """
         base_idx = kwargs.get("base_idx", [])

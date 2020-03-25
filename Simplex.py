@@ -1,6 +1,7 @@
 from linprog.problem import LpProblem
 from linprog.simplex_method import SimplexMethod
 from linprog.simplex_vectorized import SimplexVectorized
+from linprog.dual_simplex import DualSimplex
 
 
 def simplex_method_tests():
@@ -36,6 +37,11 @@ def simplex_method_tests():
 
 
 def simplex_vectorized_tests():
+    # 上课的例题 for debug
+    pb = LpProblem([2, 3, 0, 0, 0], [[1, 2, 1, 0, 0], [4, 0, 0, 1, 0], [0, 4, 0, 0, 1]], [8, 16, 12])
+    s = pb.solve(SimplexVectorized)
+    print(s)
+
     # 普通标准问题
     pb = LpProblem([-5, 5, 13, 0, 0], [[-1, 1, 3, 1, 0], [12, 4, 10, 0, 1]], [20, 90])
     s = pb.solve(SimplexVectorized)
@@ -67,13 +73,21 @@ def simplex_vectorized_tests():
     print(s)
 
 
-def simplex_vectorized_debug():
-    pb = LpProblem([2, 3, 0, 0, 0], [[1, 2, 1, 0, 0], [4, 0, 0, 1, 0], [0, 4, 0, 0, 1]], [8, 16, 12])
-    s = pb.solve(SimplexVectorized)
+def dual_simplex_tests():
+    pb = LpProblem([-9, -12, -15, 0, 0, 0], [[-2, -2, -1, 1, 0, 0], [-2, -3, -1, 0, 1, 0], [-1, -1, -5, 0, 0, 1]], [-10, -12, -14])
+    s = pb.solve(DualSimplex)
+    print(s)
+
+    pb = LpProblem([-5, 5, 13, 0, 0], [[-1, 1, 3, 1, 0], [16, 0, -2, -4, 1]], [30, -30])
+    s = pb.solve(DualSimplex)
+    print(s)
+
+    pb = LpProblem([-5, 5, 13, 0, 0, 0], [[-1, 1, 3, 1, 0, 0], [16, 0, -2, -4, 1, 0], [5, 0, -4, -3, 0, 1]], [20, 10, -10])
+    s = pb.solve(DualSimplex)
     print(s)
 
 
 if __name__ == '__main__':
     # simplex_method_tests()
-    # simplex_vectorized_debug()
-    simplex_vectorized_tests()
+    # simplex_vectorized_tests()
+    dual_simplex_tests()
