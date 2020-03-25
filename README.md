@@ -11,11 +11,11 @@
 └── linprog
     ├── __init__.py
     ├── dual_simplex.py			对偶单纯形算法实现 DualSimplex
-    ├── problem.py				线性规划问题类 LpProblem
+    ├── problem.py			线性规划问题类 LpProblem
     ├── simplex_method.py		单纯形表法实现 SimplexMethod
-    ├── simplex_vectorized.py	单纯形算法矩阵表示实现 SimplexVectorized
-    ├── solve.py				线性规划问题的解类 LpSolve
-    └── solver.py				线性规划问题解法抽象类 LpSolver
+    ├── simplex_vectorized.py		单纯形算法矩阵表示实现 SimplexVectorized
+    ├── solve.py			线性规划问题的解类 LpSolve
+    └── solver.py			线性规划问题解法抽象类 LpSolver
 ```
 
 ## 接口说明
@@ -43,7 +43,7 @@
   ```
   SimplexMethod		# 单纯形表法
   SimplexVectorized	# 基于矩阵表示的单纯形法
-  DualSimplex			# 对偶单纯形法
+  DualSimplex		# 对偶单纯形法
   ```
 
 **具体使用**：
@@ -67,9 +67,9 @@
    :param solver: LpSolver 的具体实现，直接传类名即可，三选一：
    	SimplexMethod		: 单纯形表法
    	SimplexVectorized	: 基于矩阵表示的单纯形法
-   	DualSimplex			: 对偶单纯形法
+   	DualSimplex		: 对偶单纯形法
    :param kwargs: 可选参数
-   	base_idx=[...] (default []): 指定初始基，缺省则由算法自行确定
+   	base_idx=[...] (default []):    指定初始基，缺省则由算法自行确定
    	show_tab=True  (default False): 打印单纯形表，仅对 solver=SimplexMethod 适用
    	two_step=True  (default False): 无单位阵作初始基时，使用两阶段法
    	big_m=True     (default True):  无单位阵作初始基时，使用大 M 法
