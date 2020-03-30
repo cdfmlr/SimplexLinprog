@@ -17,12 +17,16 @@ class SimplexVectorized(LpSolver):
     待解决应符合标准型，即：
     <math>
         max z = c^T * x
-        s.t. a*x = b, x >= 0
+        s.t. a*x = b, x >= 0, b > 0
     </math>
 
     单纯形算法参考：https://zh.wikipedia.org/zh-hans/单纯形法
     """
+
     class Problem(LpProblem):
+        """
+        矩阵化的单纯形法内部的线性规划问题表示
+        """
         def __init__(self, c, a, b):
             super().__init__(c, a, b)
             self.base_idx = np.ones(len(b), 'int') * -1
@@ -34,7 +38,7 @@ class SimplexVectorized(LpSolver):
 
     def find_idt_base(self):
         """
-        尝试找单位阵作初始基
+        尝试找「单位阵」作初始基
 
         :return: True if success False else
         """
@@ -54,7 +58,6 @@ class SimplexVectorized(LpSolver):
         """
         用大M法得到初始基
 
-        :param kwargs: show_tab=True (default False): 打印运算过程
         :return: None
         """
         M = ((max(abs(self.problem.c)) + 1) ** 2) * 10 + 10
@@ -171,6 +174,11 @@ def _simplex_vectorized_solve(p: SimplexVectorized.Problem) -> LpSolve:
 
 
 def _get_theta(base_inv, base_inv_p_entering, p):
+    """
+    检验数计算
+
+    :return: 检验数
+    """
     theta = np.ones(len(p.b)) * np.inf
     for i in range(len(theta)):
         if base_inv_p_entering[i] > 0:
@@ -196,6 +204,11 @@ def _get_n_base_idx(p: SimplexVectorized.Problem, base_idx):
 
 
 def _analyse_solve(p: SimplexVectorized.Problem, x, last_sigma_n) -> LpSolve:
+    """
+    单纯形求解完成后，分析解的情况
+
+    :return: 单纯形求解结果(LpSolve实例)
+    """
     x_real = x[0: len(p.cc)]
     x_personal = x[len(p.cc):]    # 人工变量
 

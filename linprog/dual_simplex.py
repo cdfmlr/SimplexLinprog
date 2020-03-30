@@ -10,11 +10,13 @@ from .solver import LpSolver
 class DualSimplex(LpSolver):
     """ 对偶单纯形算法
 
-    待解决应符合标准型.
-
-    单纯形算法参考：https://zh.wikipedia.org/zh-hans/单纯形法
+    待解决应符合标准型，且问题可用对偶单纯形法求解.
     """
+
     class Problem(LpProblem):
+        """
+        对偶单纯形算法内部的线性规划问题表示
+        """
         def __init__(self, c, a, b):
             super().__init__(c, a, b)
             self.base_idx = np.ones(len(b), 'int') * -1
@@ -46,7 +48,6 @@ class DualSimplex(LpSolver):
         """
         用大M法得到初始基
 
-        :param kwargs: show_tab=True (default False): 打印运算过程
         :return: None
         """
         M = ((max(abs(self.problem.c)) + 1) ** 2) * 10 + 10
@@ -169,6 +170,11 @@ def _dual_simplex_solve(p: DualSimplex.Problem) -> LpSolve:
 
 
 def _get_theta_nb(sigma, p, n_base_idx, lb, base_inv):
+    """
+    非基变量检验数计算
+
+    :return: 非基变量的检验数
+    """
     theta = np.ones(len(p.c[n_base_idx])) * np.inf
     n = np.dot(base_inv, p.a.T[n_base_idx].T)   # 基变换后的非基矩阵
     a_l = n[lb]
@@ -197,6 +203,11 @@ def _get_n_base_idx(p: DualSimplex.Problem, base_idx):
 
 
 def _analyse_solve(p: DualSimplex.Problem, x, last_sigma, last_n_base_idx) -> LpSolve:
+    """
+    单纯形求解完成后，分析解的情况
+
+    :return: 单纯形求解结果(LpSolve实例)
+    """
     x_real = x[0: len(p.cc)]
     x_personal = x[len(p.cc):]    # 人工变量
 

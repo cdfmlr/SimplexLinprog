@@ -20,22 +20,24 @@
 
 ## 接口说明
 
-首先，介绍三个基本类：
+在开始之前，您需要了解该项目提供的三个基本模型类：
 
 - `LpProblem`：表示一个**标准型**线性规划问题：
 
   ```
   max z = c^T * x
-  s.t. a*x = b, x >= 0
+  s.t. a*x = b, x >= 0, b > 0
   ```
+
+  【注】使用 `DualSimplex` 算法求解的时候，还有注意保证问题可用对偶单纯形法。
 
 - `LpSolve`：表示一个线性规划问题的解，包含以下内容：
 
   ```
-  最优化成功 : True or False
-  解的描述 : 唯一最优解/无穷多最优解/无界解/无可行解... 
-  最优解 : [x1, x2, ...] or None
-  最优目标函数值 : z
+  success: 最优化成功 : True or False
+  description: 解的描述 : 唯一最优解/无穷多最优解/无界解/无可行解... 
+  solve: 最优解 : [x1, x2, ...] or None
+  target: 最优目标函数值 : z
   ```
 
 - `LpSolver`：线性规划问题的解法，具体实现有三种：
@@ -82,6 +84,11 @@
    ```python
    print(solve)
    # LpSolve 实现了对__str__的重载，可以打印出易读的解
+   # 或者，可以调取 LpSolve 对象的具体属性：
+   solve.success     # 是否得到了最优解
+   solve.description # 解的描述
+   solve.solve       # 最优解向量
+   solve.target      # 最优目标函数值
    ```
 
 E.g.
@@ -137,8 +144,9 @@ print(s)
 - [ ] 异常输入检测、处理
 - [ ] 输入任意线性规划问题，自动化为标准型
 - [ ] CLI、GUI 交互界面
+- [ ] 模仿 scipy.optimize.linprog，重写一套更好的实现
 
-## 开源协议
+## 开放源代码
 
 MIT License
 

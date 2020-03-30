@@ -5,6 +5,7 @@ class LpSolve(object):
     :attributes success:     是否得到了最优解
     :attributes description: 解的描述
     :attributes solve:       最优解
+    :attributes target:      最优目标函数值
     """
 
     def __init__(self, success: bool, description: str, solve: list, target: float):

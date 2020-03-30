@@ -8,17 +8,21 @@ from .solver import LpSolver
 
 
 class SimplexMethod(LpSolver):
-    """ 单纯形法
+    """ 单纯形(表)法
 
     待解决应符合标准型，即：
     <math>
         max z = c^T * x
-        s.t. a*x = b, x >= 0
+        s.t. a*x = b, x >= 0, b > 0
     </math>
 
     单纯形算法参考：https://zh.wikipedia.org/zh-hans/单纯形法
     """
+
     class Problem(LpProblem):
+        """
+        单纯形(表)法内部的线性规划问题表示
+        """
         def __init__(self, c, a, b):
             super().__init__(c, a, b)
             self.base_idx = np.ones(len(b), 'int') * -1
