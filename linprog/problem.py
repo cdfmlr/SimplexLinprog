@@ -31,4 +31,3 @@ class LpProblem(object):
         assert issubclass(solver, LpSolver)
         s = solver(self)
         return s.solve(**kwargs)
-

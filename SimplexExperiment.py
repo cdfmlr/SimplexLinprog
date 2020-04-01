@@ -96,7 +96,25 @@ def dual_simplex_tests():
     print(s)
 
 
+def experiment():
+    pb = LpProblem([3, -1, -1, 0, 0], [[1, -2, 1, 1, 0], [-4, 1, 2, 0, -1], [-2, 0, 1, 0, 0]], [11, 3, 1])
+
+    print("\n\n>> 单纯形表法，打印单纯形表，使用两阶段法: ")
+    s1 = pb.solve(SimplexMethod, show_tab=True, two_step=True)
+    print(s1)
+
+    print("\n\n>> 矩阵表示单纯形，默认使用大M法: ")
+    s2 = pb.solve(SimplexVectorized)
+    print(s2)
+
+    print("\n\n>> 对偶单纯形法: ")
+    pbd = LpProblem([-9, -12, -15, 0, 0, 0], [[-2, -2, -1, 1, 0, 0], [-2, -3, -1, 0, 1, 0], [-1, -1, -5, 0, 0, 1]], [-10, -12, -14])
+    s3 = pbd.solve(DualSimplex)
+    print(s3)
+
+
 if __name__ == '__main__':
-    simplex_method_tests()
-    simplex_vectorized_tests()
-    dual_simplex_tests()
+    # simplex_method_tests()
+    # simplex_vectorized_tests()
+    # dual_simplex_tests()
+    experiment()
